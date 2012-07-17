@@ -22,7 +22,7 @@ class WC_QTML {
 
 				add_action( 'init', array($this, 'qt_woo_init'), 1 );
 				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_loaded' ), 2 );
-				add_action( 'wp_head' array($this, 'print_debug' ) );
+				//add_action( 'wp_head', array($this, 'print_debug' ) );
 			}
 		}
 
@@ -96,6 +96,7 @@ class WC_QTML {
 		// fix product single product page items
 		add_filter( 'woocommerce_attribute_label', array($this, 'qt_woo_attribute_label_filter') );
 		add_filter( 'get_term', array($this, 'qt_woo_term_filter') );
+		add_filter( 'wp_get_object_terms', array($this, 'qt_woo_object_term_filter'), 10, 4 );
 		add_filter( 'woocommerce_variation_option_name', array($this, 'qt_woo_variation_option_name_filter') );
 		add_filter( 'woocommerce_attribute', array($this, 'qt_woo_attribute_filter'), 10, 3 );
 		add_filter( 'woocommerce_short_description', array($this, 'qt_woo_short_description_filter') );
@@ -140,13 +141,22 @@ class WC_QTML {
 		return $label;
 	}
 
-	function qt_woo_term_filter($term) {
+	function qt_woo_term_filter( $term ) {
 		if ( $term ) {
 			if ( isset( $GLOBALS['order_lang'] ) && in_array( $GLOBALS['order_lang'], $this->enabled_languages ) )
 				$term->name = qtrans_use( $GLOBALS['order_lang'], $term->name );
 			else $term->name = __( $term->name );
 		}
 		return $term;
+	}
+
+	function qt_woo_object_term_filter( $terms, $object_ids, $taxonomies, $args ) {
+		if ( $terms ) {
+			foreach ( $terms as $term )
+				if ( isset( $term->name ) && ! ( strpos($term->name, '[:') === false ) )
+					$term->name = __( $term->name );
+		}
+		return $terms;
 	}
 
 	function qt_woo_variation_option_name_filter( $term_name ) {
@@ -251,17 +261,15 @@ class WC_QTML {
 
 	function qt_woo_switch_email_textdomain( $order_id ) {
 
-		global $q_config;
-
 		if ( $order_id > 0 ) {
 			$custom_values = get_post_custom_values( 'language', $order_id );
 			$order_lang = $custom_values[0];
-			if ( isset( $order_lang ) && $order_lang != '' && $order_lang != qtrans_getLanguage() ) {
+			if ( isset( $order_lang ) && $order_lang != '' && $order_lang != $this->default_language ) {
 				$GLOBALS['order_lang'] = $order_lang;
 				$domain = 'woocommerce';
 				unload_textdomain( $domain );
 				load_textdomain( $domain, WP_PLUGIN_DIR . '/woocommerce/languages/woocommerce-' . $this->enabled_locales[$order_lang] . '.mo' );
-			} else { $GLOBALS['order_lang'] = qtrans_getLanguage(); }
+			} else { $GLOBALS['order_lang'] = $this->default_language; }
 		}
 	}
 
