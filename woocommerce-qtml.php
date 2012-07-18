@@ -2,7 +2,7 @@
 /*
   Plugin Name: Woocommerce-qTML
   Plugin URI: #
-  Description: Makes qTranslate play nice with Woocommerce (v1.6.0).
+  Description: Adds experimental qTranslate support to Woocommerce. Tested with Wordpress v3.3.2, qTranslate v2.5.29 and Woocommerce v1.6.0.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
   Version: 0.11
