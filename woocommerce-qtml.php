@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: Woocommerce-qT
+  Plugin Name: Woocommerce-qTML
   Plugin URI: #
   Description: Makes qTranslate play nice with Woocommerce (v1.6.0).
   Author: SomewhereWarm
