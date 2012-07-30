@@ -2,12 +2,11 @@
 /*
   Plugin Name: Woocommerce-qTML
   Plugin URI: #
-  Description: Adds experimental qTranslate support to Woocommerce. Written for Wordpress v3.3.2, qTranslate v2.5.29 & Woocommerce v1.6.0. 
+  Description: Adds experimental qTranslate support to Woocommerce. Written for Wordpress v3.3.2, qTranslate v2.5.29 & Woocommerce v1.6. 
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
   Version: 0.11
  */
-
 
 class WC_QTML {
 
@@ -69,6 +68,7 @@ class WC_QTML {
 		add_filter( 'qtranslate_language', array($this,'qt_woo_lang') );
 	}
 
+
 	function qt_woo_init() {
 
 		// remove generator
@@ -104,7 +104,6 @@ class WC_QTML {
 		add_action( 'woocommerce_order_status_completed_notification', array($this,'qt_woo_switch_email_textdomain'), 1 );
 
 		add_action( 'woocommerce_before_send_customer_invoice', array($this, 'qt_woo_before_send_customer_invoice'), 1 );
-		add_action( 'woocommerce_after__customer_invoice', array($this, 'qt_woo_after_send_customer_invoice'), 1 );
 
 		// fix payment gateway & shipping method descriptions
 		add_filter( 'woocommerce_available_shipping_methods', array($this, 'qt_woo_shipping_methods_filter') );
@@ -289,7 +288,7 @@ class WC_QTML {
 		if ( $order_id > 0 ) {
 			$custom_values = get_post_custom_values( 'language', $order_id );
 			$order_lang = $custom_values[0];
-			if ( isset( $order_lang ) && $order_lang != '' && $order_lang != $this->current_language ) {
+			if ( isset( $order_lang ) && $order_lang != '' ) {
 				$GLOBALS['order_lang'] = $order_lang;
 				$domain = 'woocommerce';
 				unload_textdomain( $domain );
