@@ -2,7 +2,7 @@
 /*
   Plugin Name: Woocommerce-qTML
   Plugin URI: #
-  Description: Adds experimental qTranslate support to Woocommerce. Written for Wordpress v3.3.2, qTranslate v2.5.29 & Woocommerce v1.6. 
+  Description: Adds experimental qTranslate support to Woocommerce. Written for Wordpress v3.3.2, qTranslate v2.5.29 & Woocommerce v1.6.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
   Version: 0.11
@@ -28,7 +28,7 @@ class WC_QTML {
 				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_loaded' ), 3 );
 
 				// Debug
-				//add_action( 'wp_head', array($this, 'print_debug' ) );
+				//add_action( 'admin_head', array($this, 'print_debug' ) );
 			}
 		}
 
@@ -36,7 +36,7 @@ class WC_QTML {
 
 	function print_debug() {
 		echo '<br/><br/>Info: ';
-		print_r( $this->current_language );
+		print_r( $this->default_language );
 	}
 
 
@@ -48,7 +48,7 @@ class WC_QTML {
 		$this->default_language = $q_config['default_language'];
 		$this->enabled_locales = $q_config['locale'];
 
-		if ( in_array( qtrans_getLanguage(), $this->enabled_languages ) ) { 
+		if ( in_array( qtrans_getLanguage(), $this->enabled_languages ) ) {
 			$this->current_language = qtrans_getLanguage();
 			$_SESSION['qtrans_language'] = $this->current_language;
 		} elseif ( isset( $_SESSION['qtrans_language'] ) ) {
@@ -63,7 +63,7 @@ class WC_QTML {
 	function qt_woo_plugins_init(){
 
 		// customize localization of admin menu
-		remove_action('admin_menu','qtrans_adminMenu');
+		remove_action( 'admin_menu','qtrans_adminMenu' );
 		add_filter( 'locale', array($this, 'qt_woo_admin_locale'), 1000 );
 		add_filter( 'qtranslate_language', array($this,'qt_woo_lang') );
 	}
@@ -270,7 +270,7 @@ class WC_QTML {
 	function qt_woo_admin_locale($loc) {
 		if ( is_admin() && !is_ajax() ) {
 			$loc = $this->enabled_locales[$this->default_language];
-		} 
+		}
 		return $loc;
 	}
 
