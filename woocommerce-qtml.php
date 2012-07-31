@@ -23,7 +23,7 @@ class WC_QTML {
 				add_action( 'init', array($this, 'qt_woo_init'), 1 );
 
 				// Forces default language in admin area
-				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_init' ), 0 );
+				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_init' ), 4 );
 
 				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_loaded' ), 3 );
 
@@ -36,7 +36,7 @@ class WC_QTML {
 
 	function print_debug() {
 		echo '<br/><br/>Info: ';
-		print_r( $this->default_language );
+		print_r( $this->current_language );
 	}
 
 
@@ -63,7 +63,7 @@ class WC_QTML {
 	function qt_woo_plugins_init(){
 
 		// customize localization of admin menu
-		remove_action( 'admin_menu','qtrans_adminMenu' );
+		remove_action( 'admin_menu', 'qtrans_adminMenu' );
 		add_filter( 'locale', array($this, 'qt_woo_admin_locale'), 1000 );
 		add_filter( 'qtranslate_language', array($this,'qt_woo_lang') );
 	}
