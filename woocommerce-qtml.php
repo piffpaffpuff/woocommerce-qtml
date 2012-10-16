@@ -2,10 +2,10 @@
 /*
   Plugin Name: Woocommerce-qTML
   Plugin URI: #
-  Description: Adds experimental qTranslate support to Woocommerce. Written for Wordpress v3.3.2, qTranslate v2.5.29 & Woocommerce v1.6.
+  Description: Adds qTranslate support to Woocommerce. Requires Wordpress v3.3.2/3.4.1, qTranslate v2.5.29/2.5.31 & Woocommerce v1.6+. 
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 0.11
+  Version: 0.20+
  */
 
 class WC_QTML {
@@ -15,28 +15,38 @@ class WC_QTML {
 	var $default_language;
 	var $current_language;
 
+	var $mode;
+
 	public function __construct() {
 
 		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			if ( in_array( 'qtranslate/qtranslate.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
-				add_action( 'init', array($this, 'qt_woo_init'), 1 );
+				add_action( 'init', array($this, 'qt_woo_init'), 0 );
 
 				// Forces default language in admin area
-				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_init' ), 4 );
+				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_init' ), 1 );
 
 				add_action( 'plugins_loaded', array($this, 'qt_woo_plugins_loaded' ), 3 );
 
 				// Debug
-				//add_action( 'admin_head', array($this, 'print_debug' ) );
+				// add_action( 'admin_head', array($this, 'print_debug' ) );
 			}
 		}
 
 	}
 
 	function print_debug() {
-		echo '<br/><br/>Info: ';
+		echo '<br/><br/>Locale: ';
+		print_r( get_locale() );
+		echo '<br/>Current Language: ';
 		print_r( $this->current_language );
+		echo '<br/>Default Lang: ';
+		print_r( $this->default_language );
+		echo '<br/>qTrans Lang: ';
+		print_r( qtrans_getLanguage() );
+		echo '<br/>Session Lang: ';
+		print_r( $_SESSION['qtrans_language'] );
 	}
 
 
@@ -56,6 +66,14 @@ class WC_QTML {
 		} else {
 			$this->current_language = $this->default_language;
 		}
+
+		// get url mode 
+
+		// QT_URL_QUERY - query: 1
+		// QT_URL_PATH - pre-path: 2
+		// QT_URL_DOMAIN - pre-domain: 3
+
+		$this->mode = $q_config['url_mode'];
 
 	}
 
@@ -114,13 +132,19 @@ class WC_QTML {
 		// fix product category listing for translate tags
 		add_filter( 'term_links-product_cat', array($this, 'qt_woo_term_links_filter') );
 
-		// fix product single product page items
+		// fix taxonomy titles
+		$this->qt_woo_taxonomies_filter();
+
 		add_filter( 'woocommerce_attribute_label', array($this, 'qt_woo_attribute_label_filter') );
 		add_filter( 'get_term', array($this, 'qt_woo_term_filter') );
+		add_filter( 'get_terms', array($this, 'qt_woo_terms_filter'), 10, 3 );
 		add_filter( 'wp_get_object_terms', array($this, 'qt_woo_object_term_filter'), 10, 4 );
+		add_filter( 'woocommerce_attribute_taxonomies', array($this, 'qt_woo_attribute_taxonomies_filter') );
+
 		add_filter( 'woocommerce_variation_option_name', array($this, 'qt_woo_variation_option_name_filter') );
 		add_filter( 'woocommerce_attribute', array($this, 'qt_woo_attribute_filter'), 10, 3 );
 		add_filter( 'woocommerce_short_description', array($this, 'qt_woo_short_description_filter') );
+
 		// hide coupons meta in emails
 		add_filter( 'woocommerce_email_order_meta_keys', array($this, 'qt_woo_hide_email_coupons') );
 
@@ -131,11 +155,68 @@ class WC_QTML {
 		add_filter( 'get_comment_link', array($this, 'qt_woo_get_comment_link_filter') );
 		add_filter( 'paginate_links', array($this, 'qt_woo_get_comment_page_link_filter') );
 
+		// fixes comment_form action
+		add_action('comment_form', array($this, 'qt_woo_comment_post_lang') );
+		add_filter('comment_post_redirect', array($this, 'qt_woo_comment_post_redirect'), 10, 2 );
+
+		add_filter('wp_redirect', array($this, 'qt_woo_wp_redirect_filter') );
+
+		// layered nav links
+		add_filter( 'woocommerce_layered_nav_link', array($this, 'woocommerce_layered_nav_link_filter') );
 	}
 
 
 
 	// Woocommerce Fixes
+
+
+	function qt_woo_comment_post_lang( $id ) {
+		echo '<input type="hidden" name="comment_post_lang" value="' . $this->current_language . '" id="comment_post_lang">';
+	}
+
+
+	function qt_woo_comment_post_redirect( $location, $comment ) {
+
+		if ( ! empty($_POST['comment_post_lang']) ) {
+
+			if ( $this->mode == 1 ) {
+				$lang = $_POST['comment_post_lang'];
+				$lang = rawurlencode( $lang );
+				$arg = array('lang' => $lang );
+				$location = add_query_arg($arg, $location);
+			}
+			elseif ( $this->mode == 2 ) {
+				$location = qtrans_convertURL( $location, $_POST['comment_post_lang'] );
+			}
+		}
+
+		return $location;
+	}
+
+
+	function qt_woo_wp_redirect_filter( $location ) {
+
+		if ( $this->mode == 1 && ( !is_admin() || is_ajax() ) ) {
+			$lang = '';
+			if ( !preg_match("#lang=#i", $location ) ) {
+				$lang = $this->current_language;
+				$lang = rawurlencode( $lang );
+				$arg = array('lang' => $lang );
+				$location = add_query_arg($arg, $location);
+			}
+		}
+		elseif ( $this->mode == 2 && ( !is_admin() || is_ajax() ) ) {
+			foreach ( $this->enabled_languages as $language ) {
+				if ( !preg_match("#/" . $language . "/=#i", $location ) ) {
+					return $location;
+				}
+			}
+			$location = str_replace( site_url(), site_url() . '/' . $this->current_language, $location );
+		}
+
+		return $location;
+	}
+
 
 	function qt_woo_gateway_title_filter( $title, $gateway_id ) {
 		return __( $title );
@@ -165,14 +246,57 @@ class WC_QTML {
 		return $label;
 	}
 
+
+	function qt_woo_attribute_taxonomies_filter( $attribute_taxonomies ) {
+		if ( $attribute_taxonomies ) {
+			foreach ( $attribute_taxonomies as $tax )
+				if ( isset( $tax->attribute_label ) && ! ( strpos($tax->attribute_label, '[:') === false ) )
+					$tax->attribute_label = __( $tax->attribute_label );
+		}
+		return $attribute_taxonomies;
+	}
+
+
+	function qt_woo_taxonomies_filter() {
+		global $wp_taxonomies;
+
+		if ( ! is_admin() )
+			return;
+
+		foreach ( $wp_taxonomies as $tax_name => $tax ) {
+			if ( $tax->labels )
+				$tax->labels = qtrans_use( $this->current_language, $tax->labels );
+		}
+	}
+
+
 	function qt_woo_term_filter( $term ) {
 		if ( $term ) {
 			if ( isset( $GLOBALS['order_lang'] ) && in_array( $GLOBALS['order_lang'], $this->enabled_languages ) )
 				$term->name = qtrans_use( $GLOBALS['order_lang'], $term->name );
-			else $term->name = __( $term->name );
+			elseif ( is_admin() && ! is_ajax() ) {
+				// product categories and terms back end fix
+			    $screen = get_current_screen();
+				if ( ! strstr( $screen->id, 'edit-pa_' ) && empty( $_GET['taxonomy'] ) )
+					$term->name = __( $term->name );
+			}
+			else {
+				$term->name = __( $term->name );
+			}
 		}
 		return $term;
 	}
+
+
+	function qt_woo_terms_filter( $terms, $taxonomies, $args ) {
+		if ( $terms ) {
+			foreach ( $terms as $term )
+				if ( isset( $term->name ) && ! ( strpos($term->name, '[:') === false ) )
+					$term->name = __( $term->name );
+		}
+		return $terms;
+	}
+
 
 	function qt_woo_object_term_filter( $terms, $object_ids, $taxonomies, $args ) {
 		if ( $terms ) {
@@ -182,6 +306,7 @@ class WC_QTML {
 		}
 		return $terms;
 	}
+
 
 	function qt_woo_variation_option_name_filter( $term_name ) {
 		return __( $term_name );
@@ -215,36 +340,47 @@ class WC_QTML {
 
 
 	function qt_woo_get_comment_link_filter($url) {
-		if( preg_match("#(\?)lang=([^/]+/)#i", $url, $match) ) {
-			$url = preg_replace("#(\?)lang=([^/]+/)#i","",$url);
-			$url = preg_replace("#(/)(\#)#i", '/'.rtrim($match[0], '/').'#', $url);
-		} else {
-			$url = preg_replace("#(/)(\#)#i", '/'.'?lang='. $this->current_language .'#', $url);
+
+		if ( $this->mode == 1 ) {
+			if( preg_match("#(\?)lang=([^/]+/)#i", $url, $match) ) {
+				$url = preg_replace("#(\?)lang=([^/]+/)#i","",$url);
+				$url = preg_replace("#(/)(\#)#i", '/'.rtrim($match[0], '/').'#', $url);
+			} else {
+				$url = preg_replace("#(/)(\#)#i", '/'.'?lang='. $this->current_language .'#', $url);
+			}
 		}
 		return $url;
 	}
 
 
-	function qt_woo_get_comment_page_link_filter($url) {
-		if( preg_match("#(\?)lang=([^/]+/)#i", $url, $match) ) {
-			$url = preg_replace("#(\?)lang=([^/]+/)#i","",$url);
-			$url = preg_replace("#(/)(\#)#i", '/'.rtrim($match[0], '/').'#', $url);
-		} else {
-			$url = preg_replace("#(/)(\#)#i", '/'.'?lang='. $this->current_language .'#', $url);
+	function qt_woo_get_comment_page_link_filter( $url ) {
+
+		if ( $this->mode == 1 ) {
+			if( preg_match("#(\?)lang=([^/]+/)#i", $url, $match) ) {
+				$url = preg_replace("#(\?)lang=([^/]+/)#i","",$url);
+				$url = preg_replace("#(/)(\#)#i", '/'.rtrim($match[0], '/').'#', $url);
+			} else {
+				$url = preg_replace("#(/)(\#)#i", '/'.'?lang='. $this->current_language .'#', $url);
+			}
 		}
 		return $url;
 	}
 
 
-	function qt_woo_fix_checkout_payment_url_filter($url) {
+	function woocommerce_layered_nav_link_filter( $link ) {
+		return qtrans_convertURL( $link, $this->current_language );
+	}
+
+
+	function qt_woo_fix_checkout_payment_url_filter( $url ) {
 		if ( !is_admin() ) {
-			$url = qtrans_convertURL($url, $this->current_language );
+			$url = qtrans_convertURL( $url, $this->current_language );
 		} else {
 			if ( preg_match("#(&|\?)order_id=([^&\#]+)#i",$url,$match) ) {
 				$order_id = $match[2];
-				$custom_values = get_post_custom_values('language', $order_id);
+				$custom_values = get_post_custom_values( 'language', $order_id );
 				$order_lang = $custom_values[0];
-				$url = qtrans_convertURL($url, $order_lang, true);
+				$url = qtrans_convertURL( $url, $order_lang, true );
 			}
 		}
 		return $url;
@@ -252,7 +388,7 @@ class WC_QTML {
 
 
 	// fixes product category listing for translate tags
-	function qt_woo_term_links_filter($term_links) {
+	function qt_woo_term_links_filter( $term_links ) {
 		$fixed_links = array();
 
 		foreach ( $term_links as $term_link ) {
@@ -267,7 +403,7 @@ class WC_QTML {
 
 
 	// resets admin locale to english only
-	function qt_woo_admin_locale($loc) {
+	function qt_woo_admin_locale( $loc ) {
 		if ( is_admin() && !is_ajax() ) {
 			$loc = $this->enabled_locales[$this->default_language];
 		}
@@ -277,7 +413,7 @@ class WC_QTML {
 
 	function qt_woo_lang( $lang ) {
 		if ( is_admin() && !is_ajax() ) {
-			return $this->default_language;
+			return 'en';
 		}
 		return $lang;
 	}
@@ -346,13 +482,23 @@ class WC_QTML {
 	}
 
 
-	function qt_woo_fix_return_url($return_url) {
-		return add_query_arg( 'lang', $this->current_language, $return_url );
+	function qt_woo_fix_return_url( $return_url ) {
+		if ( $this->mode == 1 )
+			$return_url = add_query_arg( 'lang', $this->current_language, $return_url );
+		elseif ( $this->mode == 2 )
+			$return_url = str_replace( site_url(), site_url() . '/' . $this->current_language, $return_url );
+
+		return $return_url;
 	}
 
 
 	function qt_woo_fix_payment_url( $result ) {
-		$result['redirect'] = add_query_arg( 'lang', $this->current_language, $result['redirect'] );
+
+		if ( $this->mode == 1 )
+			$result['redirect'] = add_query_arg( 'lang', $this->current_language, $result['redirect'] );
+		elseif ( $this->mode == 2 )
+			$result['redirect'] = str_replace( site_url(), site_url() . '/' . $this->current_language, $result['redirect'] );
+
 		return $result;
 	}
 
