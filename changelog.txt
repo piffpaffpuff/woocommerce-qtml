@@ -1,5 +1,9 @@
 *** Woocommerce-qTML by SomewhereWarm ***
 
+2013.10.10 - version 1.1.1
+ * esc_url tweaks
+ * SSL improvements in pre-path mode
+
 2013.8.21 - version 1.1.0
  * Fixed multilingual e-mail text domain switching
  * Fixed esc_url filter

@@ -5,12 +5,12 @@
   Description: Adds experimental qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 1.1.0
+  Version: 1.1.1
  */
 
 class WC_QTML {
 
-	var $version = '1.1.0';
+	var $version = '1.1.1';
 
 	var $enabled_languages;
 	var $enabled_locales;
@@ -270,7 +270,7 @@ class WC_QTML {
 					return $location;
 				}
 			}
-			$location = str_replace( site_url(), site_url() . '/' . $this->current_language, $location );
+			$location = str_replace( $this->strip_protocol( site_url() ), $this->strip_protocol( site_url() ) . '/' . $this->current_language, $location );
 		}
 
 		return $location;
@@ -571,9 +571,8 @@ class WC_QTML {
 
 
 	function qt_woo_esc_url_filter( $url ) {
-		if ( !is_admin() && !preg_match("#lang=#i", $url) ) {
-			$url = qtrans_convertURL( $url, $this->current_language );
-		}
+		if ( ( !is_admin() || is_ajax() ) && strpos( $url, 'lang' ) === false && strpos( $this->strip_protocol( $url ), $this->strip_protocol( site_url() ) . '/' . $this->current_language . '/' ) === false )
+				$url = add_query_arg( 'lang', $this->current_language, remove_query_arg( 'lang', $url ) );
 		return $url;
 	}
 
@@ -581,8 +580,8 @@ class WC_QTML {
 	function qt_woo_fix_return_url( $return_url ) {
 		if ( $this->mode == 1 )
 			$return_url = add_query_arg( 'lang', $this->current_language, $return_url );
-		elseif ( $this->mode == 2 && strpos( $return_url, site_url() . '/' . $this->current_language . '/' ) === false )
-			$return_url = str_replace( site_url(), site_url() . '/' . $this->current_language, $return_url );
+		elseif ( $this->mode == 2 && strpos( str_replace( array( 'https:', 'http:' ), '', $return_url ), str_replace( array( 'https:', 'http:' ), '', site_url() ) . '/' . $this->current_language . '/' ) === false )
+			$return_url = str_replace( str_replace( array( 'https:', 'http:' ), '', site_url() ), str_replace( array( 'https:', 'http:' ), '', site_url() ) . '/' . $this->current_language, $return_url );
 
 		return $return_url;
 	}
@@ -592,8 +591,8 @@ class WC_QTML {
 
 		if ( $this->mode == 1 )
 			$result['redirect'] = add_query_arg( 'lang', $this->current_language, $result['redirect'] );
-		elseif ( $this->mode == 2 && strpos( $result['redirect'], site_url() . '/' . $this->current_language . '/' ) === false )
-			$result['redirect'] = str_replace( site_url(), site_url() . '/' . $this->current_language, $result['redirect'] );
+		elseif ( $this->mode == 2 && strpos( str_replace( array( 'https:', 'http:' ), '', $result['redirect'] ), str_replace( array( 'https:', 'http:' ), '', site_url() ) . '/' . $this->current_language . '/' ) === false )
+			$result['redirect'] = str_replace( str_replace( array( 'https:', 'http:' ), '', site_url() ), str_replace( array( 'https:', 'http:' ), '', site_url() ) . '/' . $this->current_language, $result['redirect'] );
 
 		return $result;
 	}
@@ -614,6 +613,19 @@ class WC_QTML {
 	        $st = mb_eregi_replace( $i,$u,$st );
 	    }
 	    return $st;
+	}
+
+	function strip_protocol( $url ) {
+	    // removes everything from start of url to last occurence of char in charlist
+
+	    $char = '//';
+
+		$pos = strrpos( $url, $char );
+
+	    $url_stripped = substr( $url, $pos + 2 );
+
+	    return $url_stripped;
+
 	}
 
 }
