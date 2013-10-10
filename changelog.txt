@@ -1,0 +1,50 @@
+*** Woocommerce-qTML by SomewhereWarm ***
+
+2013.8.21 - version 1.1.0
+ * Fixed multilingual e-mail text domain switching
+ * Fixed esc_url filter
+ * Fixed js
+
+2013.5.31 - version 1.0.4
+ * woocommerce_order_item_display_meta_value filter
+
+2013.5.18 - version 1.0.3
+ * General cleanup
+
+2013.5.18 - version 1.0.2
+ * Fix wp-admin redirect
+ * Fix get_current_screen notice in compatible WP versions
+
+2013.5.9 - version 1.0.1
+ * Version bump & minor fixes
+
+2013.5.8 - version 0.30
+ * Experimental ML e-mail support
+
+2012.10.16 - version 0.21
+ * Auto update
+
+2012.09.10 - version 0.20
+ * Added pre-path URL mode support
+ * Added extensive WC back-end translation support for attributes and product titles
+
+2012.08.28 - version 0.17
+ * Back-end attributes / variations are properly translated
+ * Back-end language can be changed
+
+2012.08.13 - version 0.15
+ * Product categories / terms back-end fix
+
+2012.08.9 - version 0.14
+ * Fix for ajax add to cart
+
+2012.08.1 - version 0.13
+ * Fix for admin area menu
+
+2012.07.31 - version 0.12
+ * Support for WordPress v3.4.1, qTranslate v2.5.31 & Woocommerce v1.6.1 verified
+ * Fix for admin area translations
+
+2012.07.18 - version 0.11
+ * Initial release
+ * Support for WordPress v3.3.2, qTranslate v2.5.29 & Woocommerce v1.6.0
