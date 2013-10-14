@@ -10,7 +10,7 @@
 
 class WC_QTML {
 
-	var $version = '1.1.1';
+	var $version = '1.1.2';
 
 	var $enabled_languages;
 	var $enabled_locales;
@@ -203,7 +203,7 @@ class WC_QTML {
 	// Woocommerce Fixes
 
 	function qt_woo_url_forced_admin_filter( $location ) {
-		return qtrans_convertURL( $location, $this->current_language, true );
+		return $this->qt_woo_esc_url_filter( $location );
 	}
 
 	function qt_woo_session_lang() {
@@ -563,16 +563,24 @@ class WC_QTML {
 
 
 	function qt_woo_modify_woo_params( $params ) {
-		$params['checkout_url'] = admin_url( 'admin-ajax.php?action=woocommerce-checkout&lang='. $this->current_language );
-		$params['ajax_url'] = admin_url( 'admin-ajax.php?lang='. $this->current_language );
+
+		$params['checkout_url'] = $this->qt_woo_esc_url_filter( $params['checkout_url'] ); //admin_url( 'admin-ajax.php?action=woocommerce-checkout&lang='. $this->current_language );
+
+		$params['ajax_url'] = $this->qt_woo_esc_url_filter( $params['ajax_url'] );
+
+		$params['cart_url'] = $this->qt_woo_esc_url_filter( $params['cart_url'] );
 
 		return $params;
 	}
 
 
 	function qt_woo_esc_url_filter( $url ) {
-		if ( ( !is_admin() || is_ajax() ) && strpos( $url, 'lang' ) === false && strpos( $this->strip_protocol( $url ), $this->strip_protocol( site_url() ) . '/' . $this->current_language . '/' ) === false )
+		if ( ( !is_admin() || is_ajax() ) && strpos( $url, 'lang' ) === false && strpos( $this->strip_protocol( $url ), $this->strip_protocol( site_url() ) . '/' . $this->current_language . '/' ) === false ) {
+				$url = str_replace( '&amp;','&',$url );
+				$url = str_replace( '&#038;','&',$url );
 				$url = add_query_arg( 'lang', $this->current_language, remove_query_arg( 'lang', $url ) );
+				$url = str_replace( '&','&amp;', $url );
+			}
 		return $url;
 	}
 
