@@ -5,12 +5,12 @@
   Description: Adds experimental qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 1.1.1
+  Version: 1.1.3
  */
 
 class WC_QTML {
 
-	var $version = '1.1.2';
+	var $version = '1.1.3';
 
 	var $enabled_languages;
 	var $enabled_locales;
