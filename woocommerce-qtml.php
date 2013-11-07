@@ -5,12 +5,12 @@
   Description: Adds experimental qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 1.1.4
+  Version: 1.1.5
  */
 
 class WC_QTML {
 
-	var $version = '1.1.4';
+	var $version = '1.1.5';
 
 	var $enabled_languages;
 	var $enabled_locales;
@@ -196,11 +196,20 @@ class WC_QTML {
 
 		// layered nav links
 		add_filter( 'woocommerce_layered_nav_link', array($this, 'woocommerce_layered_nav_link_filter') );
+
+		// composite products
+		add_filter( 'woocommerce_bto_component_title', array( $this, 'qt_woo_bto_split' ) );
+		add_filter( 'woocommerce_bto_component_description', array( $this, 'qt_woo_bto_split' ) );
+		add_filter( 'woocommerce_bto_product_excerpt', array( $this, 'qt_woo_bto_split' ) );
 	}
 
 
 
 	// Woocommerce Fixes
+
+	function qt_woo_bto_split( $text ) {
+		return __( $text );
+	}
 
 	function qt_woo_url_forced_admin_filter( $location ) {
 		return $this->qt_woo_esc_url_filter( $location );
@@ -257,7 +266,7 @@ class WC_QTML {
 
 		if ( $this->mode == 1 && ( !is_admin() || is_ajax() ) && strpos( $location, 'wp-admin' ) === false ) {
 			$lang = '';
-			if ( !preg_match("#lang=#i", $location ) ) {
+			if ( strpos( $location, 'lang=' ) === false ) {
 				$lang = $this->current_language;
 				$lang = rawurlencode( $lang );
 				$arg = array('lang' => $lang );
@@ -575,7 +584,7 @@ class WC_QTML {
 
 
 	function qt_woo_esc_url_filter( $url ) {
-		if ( ( !is_admin() || is_ajax() ) && strpos( $url, 'lang' ) === false && strpos( $this->strip_protocol( $url ), $this->strip_protocol( site_url() ) . '/' . $this->current_language . '/' ) === false ) {
+		if ( ( !is_admin() || is_ajax() ) && strpos( $this->strip_protocol( $url ), $this->strip_protocol( site_url() ) . '/' . $this->current_language . '/' ) === false ) {
 				$url = str_replace( '&amp;','&',$url );
 				$url = str_replace( '&#038;','&',$url );
 				$url = add_query_arg( 'lang', $this->current_language, remove_query_arg( 'lang', $url ) );

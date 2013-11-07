@@ -1,5 +1,8 @@
 *** Woocommerce-qTML by SomewhereWarm ***
 
+2013.10.25 - version 1.1.5
+ * additional filters
+
 2013.10.24 - version 1.1.4
  * bug fixes
 
