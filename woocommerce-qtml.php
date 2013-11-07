@@ -5,12 +5,12 @@
   Description: Adds experimental qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 1.1.3
+  Version: 1.1.4
  */
 
 class WC_QTML {
 
-	var $version = '1.1.3';
+	var $version = '1.1.4';
 
 	var $enabled_languages;
 	var $enabled_locales;
@@ -579,7 +579,6 @@ class WC_QTML {
 				$url = str_replace( '&amp;','&',$url );
 				$url = str_replace( '&#038;','&',$url );
 				$url = add_query_arg( 'lang', $this->current_language, remove_query_arg( 'lang', $url ) );
-				$url = str_replace( '&','&amp;', $url );
 			}
 		return $url;
 	}
