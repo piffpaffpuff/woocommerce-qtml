@@ -1,5 +1,9 @@
 *** Woocommerce-qTML by SomewhereWarm ***
 
+2013.12.03 - version 1.1.6
+ * small pre-path mode improvements
+ * prevent admin language switching
+
 2013.10.25 - version 1.1.5
  * additional filters
 
