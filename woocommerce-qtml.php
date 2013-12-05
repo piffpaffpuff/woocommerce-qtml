@@ -28,13 +28,8 @@ class WC_QTML {
 
 	public function __construct() {
 
-		if ( ! class_exists( 'WpPluginAutoUpdate' ) )
-			require_once ( 'update/update.php' );
-
-		$wp_plugin_auto_update = new WpPluginAutoUpdate( 'http://www.somewherewarm.net/wp-plugin-updates/', 'stable', basename( dirname(__FILE__) ) );
-
-		add_filter( 'pre_set_site_transient_update_plugins', array( $wp_plugin_auto_update, 'check_for_plugin_update' ) );
-		add_filter( 'plugins_api_result', array( $wp_plugin_auto_update, 'plugins_api_call' ), 10, 3 );
+		require_once('wp-updates-plugin.php');
+		new WPUpdatesPluginUpdater_278( 'http://wp-updates.com/api/2/plugin', plugin_basename(__FILE__));
 
 		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			if ( in_array( 'qtranslate/qtranslate.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
