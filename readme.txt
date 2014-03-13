@@ -1,8 +1,8 @@
 === WooCommerce qTML ===
 Tags: woocommerce, qtranslate, wc-qtml, woocommerce-qtml
 Requires at least: 3.7.0
-Tested up to: 3.7.1
-Stable tag: 1.1.7
+Tested up to: 3.8.1
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,10 @@ WooCommerce-qTML will be updated as long as qTranslate and WooCommerce are activ
 
 
 == Changelog ==
+
+= 1.2.0 =
+* WC 2.1 support
+* shipping methods in WC 2.1 support multilingual names by using qTranslate tags
 
 = 1.1.7 =
 * rollback - when using pre-path qTranslate mode, never tick the "hide language information" option
