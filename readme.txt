@@ -1,4 +1,7 @@
 === WooCommerce qTML ===
+
+Contributors: franticpsyx
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=psyx@somewherewarm.net&item_name=Donation+for+WooCommerce+qTML
 Tags: woocommerce, qtranslate, wc-qtml, woocommerce-qtml
 Requires at least: 3.7.0
 Tested up to: 3.8.1
@@ -38,6 +41,9 @@ WooCommerce-qTML will be updated as long as qTranslate and WooCommerce are activ
 
 
 == Changelog ==
+
+= 1.3.0 =
+* .org release
 
 = 1.2.0 =
 * WC 2.1 support
