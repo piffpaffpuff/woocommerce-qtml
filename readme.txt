@@ -9,15 +9,15 @@ Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WooCommerce-qTML is an experimental plugin that adds basic qTranslate support to WooCommerce.
+Experimental plugin that adds basic qTranslate support to WooCommerce.
 
 == Description ==
 
 WooCommerce-qTML: 
 
-1. ensures that qTranslate will remember language selections when navigating between the product, cart and checkout pages of WooCommerce.
-2. fixes the translation of product attributes and a number of other WooCommerce front-end strings.
-3. fixes a number of redirection issues, for example, after posting product reviews.
+1. Ensures that qTranslate will remember language selections when navigating between the product, cart and checkout pages of WooCommerce.
+2. Fixes the translation of product attributes and a number of other WooCommerce front-end strings.
+3. Fixes a number of redirection issues, for example, after posting product reviews.
 
 Woocommerce-qTML is provided with the following limitations:
 
@@ -125,5 +125,3 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 = 1.3.0 =
 .org release.
-
-== Screenshots ==
