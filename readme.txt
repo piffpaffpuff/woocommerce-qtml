@@ -123,5 +123,7 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Upgrade Notice ==
 
-= 1.1.6 =
-Small pre-path mode improvements and other minor fixes.
+= 1.3.0 =
+.org release.
+
+== Screenshots ==
