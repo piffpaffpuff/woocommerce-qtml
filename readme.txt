@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=psyx@som
 Tags: woocommerce, qtranslate, wc-qtml, woocommerce-qtml
 Requires at least: 3.7.0
 Tested up to: 3.8.1
-Stable tag: 1.2.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,8 +44,9 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Changelog ==
 
-= 1.3.0 =
+= 2.0.0 =
 * .org release
+* refactored based on im8-woocommerce-qtranslate structure
 
 = 1.2.0 =
 * WC 2.1 support
