@@ -51,7 +51,7 @@ if ( is_woocommerce_active() ) {
 				add_action( 'init', array( $this, 'wc_qtml_init' ), 0 );
 
 				// Forces default language in admin area
-				// add_action( 'plugins_loaded', array($this, 'wc_qtml_plugins_init' ), 1 );
+				add_action( 'plugins_loaded', array($this, 'wc_qtml_plugins_init' ), 1 );
 
 				add_action( 'plugins_loaded', array( $this, 'wc_qtml_plugins_loaded' ), 3 );
 
@@ -124,10 +124,12 @@ if ( is_woocommerce_active() ) {
 		function wc_qtml_plugins_init(){
 
 			// customize localization of admin menu
-			remove_action( 'admin_menu', 'qtrans_adminMenu' );
+			if ( apply_filters( 'wc_qtml_admin_default_language', true ) ) {
+				remove_action( 'admin_menu', 'qtrans_adminMenu' );
 
-			add_filter( 'locale', array( $this, 'wc_qtml_admin_locale' ), 1000 );
-			add_filter( 'qtranslate_language', array( $this,'wc_qtml_lang' ) );
+				add_filter( 'locale', array( $this, 'wc_qtml_admin_locale' ), 1000 );
+				add_filter( 'qtranslate_language', array( $this,'wc_qtml_lang' ) );
+			}
 		}
 
 
@@ -156,7 +158,7 @@ if ( is_woocommerce_active() ) {
 				'woocommerce_bto_component_title' 			  => 10,
 				'woocommerce_bto_component_description' 	  => 10,
 				'woocommerce_bto_product_excerpt' 			  => 10,
-				//'woocommerce_product_title' 				  => 10,
+				'woocommerce_product_title' 				  => 10,
 				'woocommerce_order_item_display_meta_value'   => 10,
 				'woocommerce_short_description' 			  => 10,
 			);
@@ -307,7 +309,7 @@ if ( is_woocommerce_active() ) {
 
 			// fix taxonomy titles
 			//$this->wc_qtml_taxonomies_filter();
-			//add_filter( 'woocommerce_attribute_taxonomies', array( $this, 'wc_qtml_attribute_taxonomies_filter' ) );
+			add_filter( 'woocommerce_attribute_taxonomies', array( $this, 'wc_qtml_attribute_taxonomies_filter' ) );
 			//add_filter( 'woocommerce_attribute', array( $this, 'wc_qtml_attribute_filter' ), 10, 3 );
 
 			// hide coupons meta in emails
@@ -373,6 +375,7 @@ if ( is_woocommerce_active() ) {
 				'woocommerce_term_ordering',
 				'woocommerce_update_order_review',
 				'woocommerce_update_shipping_method',
+				'woo_bto_show_product'
 			);
 
 			return in_array( $_REQUEST[ 'action' ], $actions );
@@ -738,7 +741,7 @@ if ( is_woocommerce_active() ) {
 		}
 
 		function wc_qtml_lang( $lang ) {
-			if ( is_admin() && ! is_ajax() ) {
+			if ( is_admin() && ! $this->is_ajax_woocommerce() ) {
 				return 'en';
 			}
 			return $lang;

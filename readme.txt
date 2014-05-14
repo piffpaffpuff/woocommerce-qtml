@@ -124,5 +124,5 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Upgrade Notice ==
 
-= 1.3.0 =
+= 2.0.0 =
 .org release.
