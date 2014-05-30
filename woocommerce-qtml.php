@@ -5,7 +5,7 @@
   Description: Adds experimental qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 2.0.0
+  Version: 2.0.1
  */
 
 /**
@@ -27,7 +27,7 @@ if ( is_woocommerce_active() ) {
 
 	class WC_QTML {
 
-		var $version = '2.0.0';
+		var $version = '2.0.1';
 
 		var $enabled_languages;
 		var $enabled_locales;
@@ -141,7 +141,7 @@ if ( is_woocommerce_active() ) {
 			$filters = array(
 				'option_woocommerce_email_from_name'          => 10,
 				'the_title_attribute'                         => 10,
-				'woocommerce_attribute'                       => 10,
+				//'woocommerce_attribute'                       => 10,
 				'woocommerce_attribute_label'                 => 10,
 				'woocommerce_cart_item_name'                  => 10,
 				'woocommerce_cart_shipping_method_full_label' => 10,
@@ -310,7 +310,7 @@ if ( is_woocommerce_active() ) {
 			// fix taxonomy titles
 			//$this->wc_qtml_taxonomies_filter();
 			add_filter( 'woocommerce_attribute_taxonomies', array( $this, 'wc_qtml_attribute_taxonomies_filter' ) );
-			//add_filter( 'woocommerce_attribute', array( $this, 'wc_qtml_attribute_filter' ), 10, 3 );
+			add_filter( 'woocommerce_attribute', array( $this, 'wc_qtml_attribute_filter' ), 10, 3 );
 
 			// hide coupons meta in emails
 			//add_filter( 'woocommerce_email_order_meta_keys', array( $this, 'wc_qtml_hide_email_coupons' ) );
