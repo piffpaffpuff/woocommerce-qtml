@@ -141,7 +141,6 @@ if ( is_woocommerce_active() ) {
 			$filters = array(
 				'option_woocommerce_email_from_name'          => 10,
 				'the_title_attribute'                         => 10,
-				//'woocommerce_attribute'                       => 10,
 				'woocommerce_attribute_label'                 => 10,
 				'woocommerce_cart_item_name'                  => 10,
 				'woocommerce_cart_shipping_method_full_label' => 10,
@@ -152,15 +151,17 @@ if ( is_woocommerce_active() ) {
 				'woocommerce_page_title'                      => 10,
 				'woocommerce_order_item_name'                 => 10,
 				'woocommerce_order_product_title'             => 10,
-				//'woocommerce_order_shipping_to_display'       => 10,
-				//'woocommerce_order_subtotal_to_display'       => 10,
+				//'woocommerce_order_shipping_to_display'     => 10,
+				//'woocommerce_order_subtotal_to_display'     => 10,
 				'woocommerce_variation_option_name'           => 10,
-				'woocommerce_bto_component_title' 			  => 10,
-				'woocommerce_bto_component_description' 	  => 10,
-				'woocommerce_bto_product_excerpt' 			  => 10,
-				'woocommerce_product_title' 				  => 10,
+				'woocommerce_bto_component_title'             => 10,
+				'woocommerce_bto_component_description'       => 10,
+				'woocommerce_bto_product_excerpt'             => 10,
+				'woocommerce_product_title'                   => 10,
 				'woocommerce_order_item_display_meta_value'   => 10,
-				'woocommerce_short_description' 			  => 10,
+				'woocommerce_short_description'               => 10,
+				'woocommerce_bundled_item_title'              => 10,
+				'woocommerce_bundled_item_description'        => 10
 			);
 
 			$filters = apply_filters( 'wc_qtml_translate_string_filters', $filters );
