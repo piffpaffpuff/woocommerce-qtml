@@ -5,7 +5,7 @@
   Description: Adds experimental qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 2.0.1
+  Version: 2.0.2
  */
 
 /**
@@ -27,7 +27,7 @@ if ( is_woocommerce_active() ) {
 
 	class WC_QTML {
 
-		var $version = '2.0.1';
+		var $version = '2.0.2';
 
 		var $enabled_languages;
 		var $enabled_locales;
@@ -58,7 +58,7 @@ if ( is_woocommerce_active() ) {
 				// Debug
 				// add_action( 'wp_head', array($this, 'print_debug' ) );
 			}
-			
+
 		}
 
 		function print_debug() {
@@ -198,18 +198,20 @@ if ( is_woocommerce_active() ) {
 
 			// translate tax totals
 			add_filter( 'woocommerce_order_tax_totals', array( $this, 'wc_qtml_translate_tax_totals' ), 10 );
-			
+
 
 			// translate gateway settings
 			$filters = array(
 				'option_woocommerce_bacs_settings'   => 10,
 				'option_woocommerce_cheque_settings' => 10,
+				'option_woocommerce_cod_settings' => 10
 			);
 
 			$filters = apply_filters( 'wc_qtml_translate_gateway_settings_filters', $filters );
 
 			foreach ( $filters as $id => $priority ) {
-				add_filter( $id, array( $this, 'wc_qtml_translate_gateway_settings' ), $priority );
+				if ( ! is_admin() || $this->is_ajax_woocommerce() )
+					add_filter( $id, array( $this, 'wc_qtml_translate_gateway_settings' ), $priority );
 			}
 
 
@@ -517,9 +519,9 @@ if ( is_woocommerce_active() ) {
 
 			if ( isset( $GLOBALS[ 'order_lang' ] ) && in_array( $GLOBALS[ 'order_lang' ], $this->enabled_languages ) )
 				$text = qtrans_use( $GLOBALS[ 'order_lang' ], $text );
-			else 
+			else
 				$text = __( $text );
-			
+
 			return $text;
 
 		}
