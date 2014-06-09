@@ -4,8 +4,8 @@ Contributors: franticpsyx
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=psyx@somewherewarm.net&item_name=Donation+for+WooCommerce+qTML
 Tags: woocommerce, qtranslate, wc-qtml, woocommerce-qtml
 Requires at least: 3.7.0
-Tested up to: 3.8.1
-Stable tag: 2.0.1
+Tested up to: 3.9.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,7 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 = 2.0.2 =
 * Fix - COD description and instructions translation.
+* Compatibility - WooCommerce 2.1.10, WP 3.9.1.
 
 = 2.0.1 =
 * Fix - woocommerce_attribute translation rollback.
