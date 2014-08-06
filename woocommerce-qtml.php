@@ -5,7 +5,7 @@
   Description: Adds experimental qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 2.0.3
+  Version: 2.0.4
  */
 
 /**
@@ -27,7 +27,7 @@ if ( is_woocommerce_active() ) {
 
 	class WC_QTML {
 
-		var $version = '2.0.3';
+		var $version = '2.0.4';
 
 		var $enabled_languages;
 		var $enabled_locales;
@@ -46,7 +46,7 @@ if ( is_woocommerce_active() ) {
 
 		public function __construct() {
 
-			if ( in_array( 'qtranslate/qtranslate.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'qtranslate/qtranslate.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			if ( in_array( 'qtranslate/qtranslate.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'mqtranslate/mqtranslate.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
 				add_action( 'init', array( $this, 'wc_qtml_init' ), 0 );
 
