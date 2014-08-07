@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=psyx@som
 Tags: woocommerce, qtranslate, wc-qtml, woocommerce-qtml
 Requires at least: 3.7.0
 Tested up to: 3.9.1
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 
 == Changelog ==
+
+= 2.0.5 =
+* Fix - Tax name translation.
 
 = 2.0.4 =
 * Fix - Do not remove qTranslate admin options.
@@ -137,5 +140,5 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Upgrade Notice ==
 
-= 2.0.4 =
-Fixed qTranslate admin options missing. Added support for mqtranslate (untested).
+= 2.0.5 =
+Fixed tax name translation.

@@ -2,10 +2,10 @@
 /*
   Plugin Name: WooCommerce-qTML
   Plugin URI: http://www.somewherewarm.net
-  Description: Adds experimental qTranslate support to WooCommerce.
+  Description: Adds experimental (m)qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 2.0.4
+  Version: 2.0.5
  */
 
 /**
@@ -27,7 +27,7 @@ if ( is_woocommerce_active() ) {
 
 	class WC_QTML {
 
-		var $version = '2.0.4';
+		var $version = '2.0.5';
 
 		var $enabled_languages;
 		var $enabled_locales;
@@ -71,7 +71,7 @@ if ( is_woocommerce_active() ) {
 			echo '<br/>qTrans Lang: ';
 			print_r( qtrans_getLanguage() );
 			echo '<br/>Session Lang: ';
-			print_r( $_SESSION['qtrans_language'] );
+			print_r( $_SESSION[ 'qtrans_language' ] );
 		}
 
 
@@ -144,7 +144,7 @@ if ( is_woocommerce_active() ) {
 				'woocommerce_attribute_label'                 => 10,
 				'woocommerce_cart_item_name'                  => 10,
 				'woocommerce_cart_shipping_method_full_label' => 10,
-				'woocommerce_cart_tax_totals'                 => 10,
+				'woocommerce_rate_label'                      => 10,
 				'woocommerce_email_footer_text'               => 10,
 				'woocommerce_gateway_description'             => 10,
 				'woocommerce_gateway_title'                   => 10,
