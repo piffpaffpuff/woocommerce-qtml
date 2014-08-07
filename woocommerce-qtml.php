@@ -5,7 +5,7 @@
   Description: Adds experimental (m)qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 2.0.5
+  Version: 2.0.6
  */
 
 /**
@@ -27,7 +27,7 @@ if ( is_woocommerce_active() ) {
 
 	class WC_QTML {
 
-		var $version = '2.0.5';
+		var $version = '2.0.6';
 
 		var $enabled_languages;
 		var $enabled_locales;

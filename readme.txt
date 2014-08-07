@@ -2,27 +2,27 @@
 
 Contributors: franticpsyx
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=psyx@somewherewarm.net&item_name=Donation+for+WooCommerce+qTML
-Tags: woocommerce, qtranslate, wc-qtml, woocommerce-qtml
+Tags: woocommerce, qtranslate, mqtranslate, wc-qtml, woocommerce-qtml
 Requires at least: 3.7.0
 Tested up to: 3.9.1
-Stable tag: 2.0.5
+Stable tag: 2.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Experimental plugin that adds basic qTranslate support to WooCommerce.
+Experimental plugin that adds (m)qTranslate support to WooCommerce.
 
 == Description ==
 
 WooCommerce-qTML: 
 
-1. Ensures that qTranslate will remember language selections when navigating between the product, cart and checkout pages of WooCommerce.
+1. Ensures that (m)qTranslate will remember language selections when navigating between the product, cart and checkout pages of WooCommerce.
 2. Fixes the translation of product attributes and a number of other WooCommerce front-end strings.
 3. Fixes a number of redirection issues, for example, after posting product reviews.
 
 WooCommerce-qTML is provided with the following limitations:
 
-* As expected, WooCommerce-qtML helps keep the front-end of your shop properly localized. However, depending on your theme and installed plugins, certain strings or parts of your website might not be translated as expected.
-* The admin area is not streamlined for multilingual input. No separate input boxes exist for multilingual input – instead, WooCommerce categories & attributes must be entered using qTranslate tags, e.g. [:en]Color[:de]Farbe].
+* As expected, WooCommerce-qTML helps keep the front-end of your shop properly localized. However, depending on your theme and installed plugins, certain strings or parts of your website might not be translated as expected.
+* The admin area is not streamlined for multilingual input. No separate input boxes exist for multilingual input – instead, WooCommerce categories & attributes must be entered using (m)qTranslate tags, e.g. [:en]Color[:de]Farbe].
 * Experimental support for multilingual customer e-mails is included since version 1.0.0. However, extensions and 3rd party plugins that add content to e-mail notifications might not work out of the box. If you need assistance with a particular WooCommerce extension, please contact us for a quote.
 * WooCommerce-qTML is only recommended for use by developers, since, in most cases, the code will need to be modified according to the particular needs of each project. The plugin is a good head-start that will save developers a few hours of research – it is not a complete multi-language solution!
 
@@ -31,7 +31,7 @@ Always use the plugin with the latest versions of WooCommerce / Wordpress. Using
 1. Always backup your entire website before updating WooCommerce or WordPress.
 2. Check that a new version of WooCommerce-qTML exists before updating WC or WP and verify that the version you are upgrading to is supported.
 
-WooCommerce-qTML will be updated as long as qTranslate and WooCommerce are active and maintained.
+WooCommerce-qTML will be updated as long as (m)qTranslate and WooCommerce are active and maintained.
 
 Developers can checkout and contribute to the source code on the plugin's [GitHub Repository](https://github.com/franticpsyx/woocommerce-qtml/).
 
@@ -44,7 +44,7 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Changelog ==
 
-= 2.0.5 =
+= 2.0.6 =
 * Fix - Tax name translation.
 
 = 2.0.4 =
@@ -140,5 +140,5 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Upgrade Notice ==
 
-= 2.0.5 =
+= 2.0.6 =
 Fixed tax name translation.
