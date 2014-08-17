@@ -9,24 +9,27 @@ Stable tag: 2.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Experimental plugin that adds (m)qTranslate support to WooCommerce.
+Add (m)qTranslate support to WooCommerce.
 
 == Description ==
 
-WooCommerce-qTML: 
+WooCommerce-qTML:
 
-1. Ensures that (m)qTranslate will remember language selections when navigating between the product, cart and checkout pages of WooCommerce.
-2. Fixes the translation of product attributes and a number of other WooCommerce front-end strings.
-3. Fixes a number of redirection issues, for example, after posting product reviews.
+1. Ensures that (m)qTranslate will retain the selected language when moving between WooCommerce products, pages and endpoints.
+2. Prevents switching to the default language in many cases of redirection (after posting product reviews, when returning to the shop after paying/cancelling an order, etc).
+3. Adds qTranslate shortcode support to: product attributes, product category names and descriptions, tax descriptions, payment gateways, shipping methods.
+4. Supports localized e-mail notifications for new orders, order status updates, new order notes and invoices by storing the active language every time an order is placed.
+
 
 WooCommerce-qTML is provided with the following limitations:
 
-* As expected, WooCommerce-qTML helps keep the front-end of your shop properly localized. However, depending on your theme and installed plugins, certain strings or parts of your website might not be translated as expected.
-* The admin area is not streamlined for multilingual input. No separate input boxes exist for multilingual input – instead, WooCommerce categories & attributes must be entered using (m)qTranslate tags, e.g. [:en]Color[:de]Farbe].
-* Experimental support for multilingual customer e-mails is included since version 1.0.0. However, extensions and 3rd party plugins that add content to e-mail notifications might not work out of the box. If you need assistance with a particular WooCommerce extension, please contact us for a quote.
-* WooCommerce-qTML is only recommended for use by developers, since, in most cases, the code will need to be modified according to the particular needs of each project. The plugin is a good head-start that will save developers a few hours of research – it is not a complete multi-language solution!
+* As expected, WooCommerce-qTML helps keep the front-end of your shop properly localized. However, depending on your theme and installed WooCommerce extensions, certain strings or parts of your website might not be translated as expected.
+* The admin area is not streamlined for multilingual input. No separate input boxes exist for multilingual input – instead, WooCommerce categories & attributes must be entered using (m)qTranslate tags/shortcodes, e.g. [:en]Color[:de]Farbe].
+* Support for localized customer e-mails is included since version 1.0.0. However, extensions and 3rd party plugins that add content to e-mail notifications might not work out of the box. If you need assistance with a particular WooCommerce extension, please contact us for a quote.
+* qTranslate does *not* include proper support for HTTPS/protocol-less URLs. If you have an SSL certificate installed and want to use HTTPS in your WooCommerce store, you will need to tweak qTranslate in order to support viewing checkout/account pages securely.
+* WooCommerce-qTML is only recommended for use by developers, since, in most cases, customizations need to be made according to the needs of each project. The plugin is a good head-start that will save developers a few hours of research – it is not a complete multi-language solution!
 
-Always use the plugin with the latest versions of WooCommerce/Wordpress/(m)qTranslate. Using the plugin with older/newer versions of WooCommerce/Wordpress/(m)qTranslate is not recommended, since new versions always introduce changes that may break the translation of a few strings, or, in extreme cases, even entire pages. You can always give it a shot and see if another combination works for you. However, we strongly encourage you to:
+Always use the plugin with the latest versions of WooCommerce/Wordress/(m)qTranslate. Using the plugin with older/newer versions of WooCommerce/WordPress/(m)qTranslate is not recommended, since new versions always introduce changes that may break the translation of a few strings, or, in extreme cases, even entire pages. You can always give it a shot and see if another combination works for you. However, we strongly encourage you to:
 
 1. Always backup your entire website before updating WooCommerce or WordPress.
 2. Check that a new version of WooCommerce-qTML exists before updating WC or WP and verify that the version you are upgrading to is supported.

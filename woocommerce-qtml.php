@@ -2,7 +2,7 @@
 /*
   Plugin Name: WooCommerce-qTML
   Plugin URI: http://www.somewherewarm.net
-  Description: Adds experimental (m)qTranslate support to WooCommerce.
+  Description: Add (m)qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
   Version: 2.0.6
