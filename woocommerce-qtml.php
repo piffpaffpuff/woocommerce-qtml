@@ -5,7 +5,7 @@
   Description: Add (m)qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 2.0.6
+  Version: 2.0.8
  */
 
 /**
@@ -27,7 +27,7 @@ if ( is_woocommerce_active() ) {
 
 	class WC_QTML {
 
-		var $version = '2.0.6';
+		var $version = '2.0.8';
 
 		var $enabled_languages;
 		var $enabled_locales;
@@ -154,6 +154,9 @@ if ( is_woocommerce_active() ) {
 				//'woocommerce_order_shipping_to_display'     => 10,
 				//'woocommerce_order_subtotal_to_display'     => 10,
 				'woocommerce_variation_option_name'           => 10,
+				'woocommerce_composite_component_title'       => 10,
+				'woocommerce_composite_component_description' => 10,
+				'woocommerce_composited_product_excerpt'      => 10,
 				'woocommerce_bto_component_title'             => 10,
 				'woocommerce_bto_component_description'       => 10,
 				'woocommerce_bto_product_excerpt'             => 10,
