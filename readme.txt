@@ -4,8 +4,8 @@ Contributors: franticpsyx
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=psyx@somewherewarm.net&item_name=Donation+for+WooCommerce+qTML
 Tags: woocommerce, qtranslate, mqtranslate, wc-qtml, woocommerce-qtml
 Requires at least: 3.7.0
-Tested up to: 3.9.1
-Stable tag: 2.0.8
+Tested up to: 4.0.0
+Stable tag: 2.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,9 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 
 == Changelog ==
+
+= 2.0.9 =
+* Fix - Do not translate terms when creating / editing.
 
 = 2.0.8 =
 * Fix - Support for Composite Products v2.4.0.
@@ -149,5 +152,5 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Upgrade Notice ==
 
-= 2.0.8 =
-Added support for Composite Products v2.4.0.
+= 2.0.9 =
+Prevent term name translation when creating / editing product attributes.
