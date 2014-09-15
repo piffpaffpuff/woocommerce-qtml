@@ -47,6 +47,9 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Changelog ==
 
+= 2.0.10 =
+* Fix - 'get_current_screen' error when saving order.
+
 = 2.0.9 =
 * Fix - Do not translate terms when creating / editing.
 
@@ -152,5 +155,5 @@ Developers can checkout and contribute to the source code on the plugin's [GitHu
 
 == Upgrade Notice ==
 
-= 2.0.9 =
-Prevent term name translation when creating / editing product attributes.
+= 2.0.10 =
+Fixes 'get_current_screen' error when saving order.
