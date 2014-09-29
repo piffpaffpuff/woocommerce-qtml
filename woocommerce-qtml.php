@@ -79,7 +79,9 @@ if ( is_woocommerce_active() ) {
 
 			global $q_config;
 
-			session_start();
+			if ( ! session_id() ) {
+				session_start();
+			}
 
 			$this->enabled_languages 	= $q_config[ 'enabled_languages' ];
 			$this->default_language 	= $q_config[ 'default_language' ];
