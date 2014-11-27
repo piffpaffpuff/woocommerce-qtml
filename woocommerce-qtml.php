@@ -5,7 +5,7 @@
   Description: Add (m)qTranslate support to WooCommerce.
   Author: SomewhereWarm
   Author URI: http://www.somewherewarm.net
-  Version: 2.0.11
+  Version: 2.0.12
  */
 
 /**
@@ -27,7 +27,7 @@ if ( is_woocommerce_active() ) {
 
 	class WC_QTML {
 
-		var $version = '2.0.11';
+		var $version = '2.0.12';
 
 		var $enabled_languages;
 		var $enabled_locales;
@@ -411,10 +411,7 @@ if ( is_woocommerce_active() ) {
 		 */
 		public function wc_qtml_translate_term( $term ) {
 
-			if (
-				is_object( $term )
-				&& isset( $term->name )
-			) {
+			if ( is_object( $term ) && isset( $term->name ) ) {
 				$term = $this->wc_qtml_term_filter( $term );
 			}
 
@@ -626,11 +623,14 @@ if ( is_woocommerce_active() ) {
 		}
 
 		function wc_qtml_attribute_taxonomies_filter( $attribute_taxonomies ) {
+
 			if ( $attribute_taxonomies ) {
+
 				foreach ( $attribute_taxonomies as $tax )
-					if ( isset( $tax->attribute_label ) && ! ( strpos($tax->attribute_label, '[:') === false ) )
+					if ( isset( $tax->attribute_label ) && ! ( strpos( $tax->attribute_label, '[:' ) === false ) )
 						$tax->attribute_label = __( $tax->attribute_label );
 			}
+
 			return $attribute_taxonomies;
 		}
 
@@ -641,26 +641,37 @@ if ( is_woocommerce_active() ) {
 				return;
 
 			foreach ( $wp_taxonomies as $tax_name => $tax ) {
+
 				if ( $tax->labels )
 					$tax->labels = qtrans_use( $this->current_language, $tax->labels );
 			}
 		}
 
 		function wc_qtml_term_filter( $term ) {
+
 			if ( $term ) {
-				if ( isset( $GLOBALS['order_lang'] ) && in_array( $GLOBALS['order_lang'], $this->enabled_languages ) )
+
+				if ( isset( $GLOBALS['order_lang'] ) && in_array( $GLOBALS['order_lang'], $this->enabled_languages ) ) {
+
 					$term->name = qtrans_use( $GLOBALS['order_lang'], $term->name );
-				elseif ( is_admin() && ! $this->is_ajax_woocommerce() && function_exists( 'get_current_screen' ) ) {
+
+				} elseif ( is_admin() && ! $this->is_ajax_woocommerce() && function_exists( 'get_current_screen' ) ) {
 
 					// product categories and terms back end fix
 				    $screen = get_current_screen();
+
 					if ( ! empty( $screen ) && ! strstr( $screen->id, 'edit-pa_' ) && empty( $_GET['taxonomy'] ) )
 						$term->name = $this->wc_qtml_split( $term->name );
-				}
-				else {
+
+				} else {
+
 					$term->name = $this->wc_qtml_split( $term->name );
+
+					if ( ! empty( $term->description ) )
+						$term->description = $this->wc_qtml_split( $term->description );
 				}
 			}
+
 			return $term;
 		}
 
